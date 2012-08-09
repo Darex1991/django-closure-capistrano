@@ -112,14 +112,14 @@ desc <<-DESC
 DESC
 task :build_static, :roles => :web do
   run_locally "rm -rf server/static/css/.sass-cache/*"
-  run_locally "rm server/static/stylesheets/images/*.*.png"
-  run_locally "rm server/static/stylesheets/images/*.*.gif"
-  run_locally "rm server/static/stylesheets/images/*.*.svg"
-  run_locally "rm server/static/ccss/*"
-  run_locally "rm server/static/cjs/*"
-  run_locally "rm server/static/stylesheets/*.*.css"
-  run_locally "sudo chmod 777 #{fetch :djangoDebug}{"
-  run_locally "./manage.py collectstatic --noinput"
+  run_locally "rm -f server/static/stylesheets/images/*.*.png"
+  run_locally "rm -f server/static/stylesheets/images/*.*.gif"
+  run_locally "rm -f server/static/stylesheets/images/*.*.svg"
+  run_locally "rm -f server/static/ccss/*"
+  run_locally "rm -f server/static/cjs/*"
+  run_locally "rm -f server/static/stylesheets/*.*.css"
+  run_locally "sudo chmod 777 #{fetch :djangoDebug}"
+  run_locally "python #{fetch :basePath}/manage.py collectstatic --noinput"
 end
 ######################################################################################################################
 desc <<-DESC
@@ -141,12 +141,12 @@ desc <<-DESC
       Before for deploy
 DESC
 task :before_deploy, :roles => :web do
-  run "rm  #{fetch :serverBasePath}/server/static/stylesheets/images/*.*.png"
-  run "rm #{fetch :serverBasePath}/server/static/stylesheets/images/*.*.gif"
-  run "rm #{fetch :serverBasePath}/server/static/stylesheets/images/*.*.svg"
-  run "rm #{fetch :serverBasePath}/server/static/ccss/*"
-  run "rm #{fetch :serverBasePath}/server/static/cjs/*"
-  run "rm #{fetch :serverBasePath}/server/static/stylesheets/*.*.css"
+  run "rm -f #{fetch :serverBasePath}/server/static/stylesheets/images/*.*.png"
+  run "rm -f #{fetch :serverBasePath}/server/static/stylesheets/images/*.*.gif"
+  run "rm -f #{fetch :serverBasePath}/server/static/stylesheets/images/*.*.svg"
+  run "rm -f #{fetch :serverBasePath}/server/static/ccss/*"
+  run "rm -f #{fetch :serverBasePath}/server/static/cjs/*"
+  run "rm -f #{fetch :serverBasePath}/server/static/stylesheets/*.*.css"
   run_locally "replace 'DEBUG = True' 'DEBUG = False' -- #{fetch :basePath}/settings.py"
   run_locally "replace '#{fetch :basePath}' '#{fetch :serverBasePath}' -- #{fetch :basePath}/settings.py"
   run_locally "replace '#{fetch :basePath}' '#{fetch :serverBasePath}' -- #{fetch :basePath}/server/scripts/django.wsgi"
@@ -166,7 +166,7 @@ desc <<-DESC
       Synchronise websites to server.
 DESC
 task :rsync_to_server, :roles => :web do
-  run_locally "rsync -atvz --exclude-from=#{fetch :basePath}/config/rsyncignore  #{fetch :basePath} #{fetch :serverSSH}:#{fetch :serverBasePath}"
+  run_locally "rsync -atvz --exclude-from=#{fetch :basePath}/config/rsyncignore  #{fetch :basePath} #{fetch :serverSSH}:#{fetch :serverWebsiteBasePath}"
 end
 ######################################################################################################################
 desc <<-DESC
