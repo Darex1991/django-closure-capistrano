@@ -133,8 +133,8 @@ desc <<-DESC
       Watch Closure
 DESC
 task :watch_closure, :roles => :web do
-  build_closure
-  run_locally "sh lib/compileclosure.sh #{fetch :javascriptSource}"
+  #build_closure
+  run_locally "sh #{fetch :djangoClosureCapistranoPath}/lib/compileclosure.sh #{fetch :javascriptSource}"
 end
 ######################################################################################################################
 desc <<-DESC
