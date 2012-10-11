@@ -173,7 +173,11 @@ desc <<-DESC
       Deploy websites to server.
 DESC
 task :rsync_deploy, :roles => :web do
+  run_locally "replace  'true'  'false' --  #{fetch :basePath}/config/plovrconfig.json"
+   run_locally "replace  'RAW'  'ADVANCED' -- #{fetch :basePath}/config/plovrconfig.json"
   build_closure
+  run_locally "replace  ' false'  'true'-- #{fetch :basePath}/config/plovrconfig.json"
+  run_locally "replace  'ADVANCED'  'RAW' -- #{fetch :basePath}/config/plovrconfig.json"
   build_static
   before_deploy
   rsync_to_server
