@@ -1,12 +1,12 @@
-goog.provides('djangoclosure.net.DjangoXhrIo');
+goog.provides('djangoclosure.net.DjangoXhrio');
 goog.require('goog.net.XhrIo');
 /**
  * DjangoXhrio
  * @extends {goog.net.Xhrio}
  */
-djangoclosure.net.DjangoXhrIo = function(){
+djangoclosure.net.DjangoXhrio = function(){
 	goog.base(this);
 	this.set('X-Requested-With','XMLHttpRequest');
 };
-goog.inherits(djangoclosure.net.DjangoXhrIo,
+goog.inherits(djangoclosure.net.DjangoXhrio,
 		goog.net.Xhrio);
